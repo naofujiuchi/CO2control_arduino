@@ -104,7 +104,7 @@ void initialize(){
 	s = 99;
 	s_previous = 99;
 	mode = 99;
-	pid = 3.45;
+	pid = 3.00;
 	for(i = 0; i < 5; i++){
 		digitalWrite(i + 2, LOW);
 	}
@@ -153,11 +153,26 @@ float getpid(int _s, int _zrhvalue){
 int getmode(int _m){
 	int quotient;
 	int remain;
-	quotient = (_m % 20) / 5;
-	remain = (_m % 20) % 5;
-	if(remain < 2){
-		return 0;
+	int cycle;
+	int nmode;
+	int modecycle;
+	cycle = 6;	// [min]
+	nmode = 3;	// 0, 1, 3
+	modecycle = cycle / nmode;	// [min]
+//	quotient = (_m % 20) / 5;
+//	remain = (_m % 20) % 5;
+	quotient = (_m % cycle) / modecycle;
+//	if(remain < modecycle){
+	switch (quotient) {
+	    case 0:
+	    	return 0;
+	    case 1:
+	    	return 1;
+    	case 2:
+    		return 3;
+/*
 	}else{
+//		return 1;
 		switch(quotient){
 			case 0:
 				return 1;
@@ -167,9 +182,11 @@ int getmode(int _m){
 				return 3;
 			case 3:
 				return 4;
+*/
 			default:
 //				Serial.println("Error in getactivepin() switch");
 				break;
-		}
+//		}
+
 	}
 }
